@@ -1537,7 +1537,7 @@ function exportToPDF() {
     html2canvas:  { 
       scale: 2.2, // Increase resolution
       useCORS: true, // Allow cross-origin images (like Unsplash)
-      letterRendering: true,
+      letterRendering: false, // Turn off letter rendering to prevent squished/overlapping characters
       scrollX: 0,
       scrollY: 0
     },
@@ -1545,41 +1545,45 @@ function exportToPDF() {
     pagebreak:    { mode: 'specify', before: '.pdf-page + .pdf-page' } // Break before each subsequent page
   };
 
-  // Compile PDF only after all fonts are fully loaded by the browser
-  document.fonts.ready.then(() => {
-    html2pdf().from(element).set(opt).save()
-      .then(() => {
-        element.classList.remove('pdf-exporting');
-        downloadBtn.innerHTML = originalText;
-        downloadBtn.disabled = false;
-        lucide.createIcons();
-      })
-      .catch(err => {
-        element.classList.remove('pdf-exporting');
-        console.error("PDF Export failed:", err);
-        alert("Failed to export PDF. Check connection and image URLs.");
-        downloadBtn.innerHTML = originalText;
-        downloadBtn.disabled = false;
-        lucide.createIcons();
-      });
-  }).catch(err => {
-    element.classList.remove('pdf-exporting');
-    console.error("Font loading verification failed:", err);
-    // Fallback compilation immediately if font loading API fails
-    html2pdf().from(element).set(opt).save()
-      .then(() => {
-        element.classList.remove('pdf-exporting');
-        downloadBtn.innerHTML = originalText;
-        downloadBtn.disabled = false;
-        lucide.createIcons();
-      })
-      .catch(pdfErr => {
-        console.error("PDF Export failed on fallback:", pdfErr);
-        downloadBtn.innerHTML = originalText;
-        downloadBtn.disabled = false;
-        lucide.createIcons();
-      });
-  });
+  // Allow browser time to apply styles, recalculate layout, and repaint
+  setTimeout(() => {
+    // Compile PDF only after all fonts are fully loaded by the browser
+    document.fonts.ready.then(() => {
+      html2pdf().from(element).set(opt).save()
+        .then(() => {
+          element.classList.remove('pdf-exporting');
+          downloadBtn.innerHTML = originalText;
+          downloadBtn.disabled = false;
+          lucide.createIcons();
+        })
+        .catch(err => {
+          element.classList.remove('pdf-exporting');
+          console.error("PDF Export failed:", err);
+          alert("Failed to export PDF. Check connection and image URLs.");
+          downloadBtn.innerHTML = originalText;
+          downloadBtn.disabled = false;
+          lucide.createIcons();
+        });
+    }).catch(err => {
+      element.classList.remove('pdf-exporting');
+      console.error("Font loading verification failed:", err);
+      // Fallback compilation immediately if font loading API fails
+      html2pdf().from(element).set(opt).save()
+        .then(() => {
+          element.classList.remove('pdf-exporting');
+          downloadBtn.innerHTML = originalText;
+          downloadBtn.disabled = false;
+          lucide.createIcons();
+        })
+        .catch(pdfErr => {
+          console.error("PDF Export failed on fallback:", pdfErr);
+          element.classList.remove('pdf-exporting');
+          downloadBtn.innerHTML = originalText;
+          downloadBtn.disabled = false;
+          lucide.createIcons();
+        });
+    });
+  }, 250);
 }
 
 // --- Custom Logo Rendering Helper ---
