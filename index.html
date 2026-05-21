@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAR Outdoors - Premium Travel Itinerary Builder</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700;800;900&family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" crossorigin>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- html2pdf.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" href="style.css?v=8">
+</head>
+<body>
+  <div class="app-container">
+    <!-- SIDEBAR / EDITOR PANEL -->
+    <aside class="editor-panel">
+      <header class="editor-header">
+        <div class="logo-wrapper">
+          <!-- Logo will be injected here dynamically by JS -->
+          <div id="app-logo-container"></div>
+          <div>
+            <h1>SAR OUTDOORS</h1>
+            <p>Adventure Itinerary Builder</p>
+          </div>
+        </div>
+      </header>
+
+      <main class="editor-content">
+        <!-- Accordion Section 1: Basic Info -->
+        <details open class="editor-section">
+          <summary>
+            <div class="section-title">
+              <i data-lucide="compass"></i>
+              <span>1. Trip Details</span>
+            </div>
+            <i class="chevron" data-lucide="chevron-down"></i>
+          </summary>
+          <div class="section-body">
+            <div class="form-group">
+              <label for="trip-title">Trip Title</label>
+              <input type="text" id="trip-title" placeholder="e.g., Ladakh Expedition 2026">
+            </div>
+            <div class="form-group">
+              <label for="trip-subtitle">Subtitle / Tagline</label>
+              <input type="text" id="trip-subtitle" placeholder="e.g., The Ultimate Himalayan Adventure">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="trip-destination">Destination</label>
+                <input type="text" id="trip-destination" placeholder="e.g., Leh, Ladakh">
+              </div>
+              <div class="form-group">
+                <label for="trip-duration">Duration</label>
+                <input type="text" id="trip-duration" placeholder="e.g., 6 Days / 5 Nights">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="trip-date">Start Date</label>
+                <input type="text" id="trip-date" placeholder="e.g., July 15, 2026">
+              </div>
+              <div class="form-group">
+                <label for="trip-people">Number of People</label>
+                <input type="text" id="trip-people" placeholder="e.g., Min 6 - Max 12 Pax">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="trip-type">Trip Type</label>
+                <select id="trip-type">
+                  <option value="private" selected>Private Departure</option>
+                  <option value="group">Group Departure</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="customer-name">Customer Name (Optional)</label>
+                <input type="text" id="customer-name" placeholder="e.g., John Doe">
+              </div>
+            </div>
+            <div class="form-group" id="pricing-private-container">
+              <label for="trip-price">Pricing (Per Person)</label>
+              <input type="text" id="trip-price" placeholder="e.g., ₹24,999">
+            </div>
+            <div class="form-row" id="pricing-group-container" style="display: none;">
+              <div class="form-group">
+                <label for="price-quad">Quad Sharing Price</label>
+                <input type="text" id="price-quad" placeholder="e.g., ₹18,500">
+              </div>
+              <div class="form-group">
+                <label for="price-triple">Triple Sharing Price</label>
+                <input type="text" id="price-triple" placeholder="e.g., ₹21,000">
+              </div>
+              <div class="form-group">
+                <label for="price-double">Double Sharing Price</label>
+                <input type="text" id="price-double" placeholder="e.g., ₹24,999">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="trip-banner">Cover Banner Image URL</label>
+              <div style="display: flex; gap: 8px;">
+                <input type="text" id="trip-banner" placeholder="Paste image link or leave empty" style="flex: 1;">
+                <label class="btn btn-secondary" style="padding: 10px 12px; margin-top: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap;">
+                  <i data-lucide="upload" style="width: 14px; height: 14px;"></i>
+                  <span>Upload</span>
+                  <input type="file" id="trip-banner-file" accept="image/*" style="display: none;">
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="trip-logo">Custom Brand Logo URL (PNG/JPG/SVG)</label>
+              <div style="display: flex; gap: 8px;">
+                <input type="text" id="trip-logo" placeholder="Paste logo image link or leave empty for default SVG" style="flex: 1;">
+                <label class="btn btn-secondary" style="padding: 10px 12px; margin-top: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap;">
+                  <i data-lucide="upload" style="width: 14px; height: 14px;"></i>
+                  <span>Upload</span>
+                  <input type="file" id="trip-logo-file" accept="image/*" style="display: none;">
+                </label>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- Accordion Section 2: Itinerary Days -->
+        <details class="editor-section">
+          <summary>
+            <div class="section-title">
+              <i data-lucide="calendar-days"></i>
+              <span>2. Itinerary Planner</span>
+            </div>
+            <i class="chevron" data-lucide="chevron-down"></i>
+          </summary>
+          <div class="section-body">
+            <p class="section-helper">Add, edit, or reorder the days of the trek/tour below.</p>
+            <div id="days-container">
+              <!-- Dynamic day editor blocks will be injected here -->
+            </div>
+            <div class="planner-actions-group" style="display: flex; gap: 10px; margin-top: 15px;">
+              <button type="button" class="btn btn-secondary" id="btn-add-day" style="flex: 1; white-space: nowrap;">
+                <i data-lucide="plus"></i> Add Day
+              </button>
+              <button type="button" class="btn btn-primary" id="btn-open-ai" style="flex: 1.2; background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%); box-shadow: 0 4px 15px rgba(124, 58, 237, 0.25); border: none; white-space: nowrap;">
+                <i data-lucide="sparkles"></i> AI Assistant
+              </button>
+            </div>
+          </div>
+        </details>
+
+        <!-- Accordion Section 3: Inclusions & Exclusions -->
+        <details class="editor-section">
+          <summary>
+            <div class="section-title">
+              <i data-lucide="list-checks"></i>
+              <span>3. Inclusions & Exclusions</span>
+            </div>
+            <i class="chevron" data-lucide="chevron-down"></i>
+          </summary>
+          <div class="section-body">
+            <div class="list-editor-group">
+              <div class="list-editor-header">
+                <h3>Inclusions (What's Covered)</h3>
+                <button type="button" class="btn btn-sm btn-icon" id="btn-add-inclusion" title="Add Inclusion">
+                  <i data-lucide="plus"></i>
+                </button>
+              </div>
+              <div id="inclusions-container" class="bullet-list-editor">
+                <!-- Inclusions will go here -->
+              </div>
+            </div>
+
+            <div class="list-editor-group margin-top-lg">
+              <div class="list-editor-header">
+                <h3>Exclusions (What's Not Covered)</h3>
+                <button type="button" class="btn btn-sm btn-icon" id="btn-add-exclusion" title="Add Exclusion">
+                  <i data-lucide="plus"></i>
+                </button>
+              </div>
+              <div id="exclusions-container" class="bullet-list-editor">
+                <!-- Exclusions will go here -->
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- Accordion Section 4: Contact & Policy details -->
+        <details class="editor-section">
+          <summary>
+            <div class="section-title">
+              <i data-lucide="phone"></i>
+              <span>4. Contact & Policies</span>
+            </div>
+            <i class="chevron" data-lucide="chevron-down"></i>
+          </summary>
+          <div class="section-body">
+            <div class="form-group">
+              <label for="contact-email">Email Address</label>
+              <input type="email" id="contact-email" placeholder="e.g., info@saroutdoors.com">
+            </div>
+            <div class="form-group">
+              <label for="contact-phone">Phone Number</label>
+              <input type="text" id="contact-phone" placeholder="e.g., +91 98765 43210">
+            </div>
+            <div class="form-group">
+              <label for="contact-website">Website</label>
+              <input type="text" id="contact-website" placeholder="e.g., www.saroutdoors.com">
+            </div>
+            <div class="form-group">
+              <label for="trip-policies">Important Notes / Terms</label>
+              <textarea id="trip-policies" rows="4" placeholder="Enter terms, safety guidelines, cancellation policy..."></textarea>
+            </div>
+          </div>
+        </details>
+
+        <!-- Accordion Section 5: Typography & Design -->
+        <details class="editor-section">
+          <summary>
+            <div class="section-title">
+              <i data-lucide="type"></i>
+              <span>5. Typography & Design</span>
+            </div>
+            <i class="chevron" data-lucide="chevron-down"></i>
+          </summary>
+          <div class="section-body">
+            <div class="form-group">
+              <label for="font-preset">Font Combination</label>
+              <select id="font-preset">
+                <option value="modern" selected>Outfit & Inter (Modern Sans)</option>
+                <option value="classic">Montserrat & Roboto (Classic Bold)</option>
+                <option value="elegant">Playfair Display & Lora (Elegant Serif)</option>
+                <option value="soft">Poppins & Open Sans (Clean Geometric)</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="title-weight">Title Weight</label>
+                <select id="title-weight">
+                  <option value="900" selected>Extra Bold (900)</option>
+                  <option value="700">Bold (700)</option>
+                  <option value="500">Medium (500)</option>
+                  <option value="400">Regular (400)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="title-style">Title Style</label>
+                <select id="title-style">
+                  <option value="normal" selected>Normal</option>
+                  <option value="italic">Italic</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="tagline-style">Tagline Style</label>
+                <select id="tagline-style">
+                  <option value="bold-normal" selected>Bold Normal</option>
+                  <option value="bold-italic">Bold Italic</option>
+                  <option value="medium-normal">Medium Normal</option>
+                  <option value="medium-italic">Medium Italic</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="title-case">Title Case</label>
+                <select id="title-case">
+                  <option value="uppercase" selected>ALL CAPS</option>
+                  <option value="capitalize">Capitalize</option>
+                  <option value="none">Normal Case</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </details>
+      </main>
+
+      <footer class="editor-footer">
+        <button type="button" class="btn btn-outline" id="btn-load-demo">
+          <i data-lucide="sparkles"></i> Load Demo
+        </button>
+        <button type="button" class="btn btn-outline" id="btn-clear-all">
+          <i data-lucide="trash-2"></i> Clear
+        </button>
+      </footer>
+    </aside>
+
+    <!-- LIVE PDF PREVIEW AREA -->
+    <section class="preview-area">
+      <div class="preview-toolbar">
+        <div class="toolbar-title">
+          <i data-lucide="eye"></i>
+          <span>Live PDF Preview (A4 Printable Pages)</span>
+        </div>
+        <div class="toolbar-actions">
+          <div class="style-selector">
+            <label for="cover-style-select">Theme:</label>
+            <select id="cover-style-select">
+              <option value="classic">Vibrant Brand Gradient</option>
+              <option value="dark">Adventure Dark Mode</option>
+              <option value="light">Eco Green (Light & Clean)</option>
+            </select>
+          </div>
+          <button type="button" class="btn btn-primary" id="btn-download-pdf">
+            <i data-lucide="download"></i> Download Itinerary PDF
+          </button>
+        </div>
+      </div>
+
+      <div class="preview-scroll-container">
+        <!-- The actual container that will be exported to PDF -->
+        <div id="pdf-document" class="pdf-document-root theme-classic">
+          
+          <!-- ================= PAGE 1: COVER PAGE ================= -->
+          <div class="pdf-page pdf-page-cover" id="pdf-cover-page">
+            <div class="cover-glow-top"></div>
+            <div class="cover-header">
+              <div class="brand-badge">
+                <span class="badge-dot"></span>
+                <span>OFFICIAL ITINERARY</span>
+              </div>
+            </div>
+            
+            <div class="cover-logo-area">
+              <!-- Recreated Logo SVG will go here -->
+              <div class="logo-preview-svg-wrapper"></div>
+            </div>
+
+            <div class="cover-hero-banner" id="preview-cover-banner">
+              <div class="cover-banner-overlay"></div>
+            </div>
+
+            <div class="cover-titles">
+              <h2 id="preview-trip-subtitle" class="trip-tagline">Adventure Expedition</h2>
+              <h1 id="preview-trip-title" class="trip-main-title">HIMLAYAN PASS TREK</h1>
+              <div class="title-divider-line"></div>
+              <div class="cover-customer-name-wrapper" id="preview-customer-name-container" style="display: none;">
+                <span class="cover-customer-name-lbl">Prepared For</span>
+                <div id="preview-customer-name" class="cover-customer-name-val">[Customer Name]</div>
+              </div>
+            </div>
+
+            <div class="cover-metadata-grid">
+              <div class="meta-item">
+                <i data-lucide="map-pin" class="meta-icon"></i>
+                <div class="meta-content">
+                  <span class="meta-label">Destination</span>
+                  <span class="meta-val" id="preview-destination">Leh, Ladakh</span>
+                </div>
+              </div>
+              <div class="meta-item">
+                <i data-lucide="clock" class="meta-icon"></i>
+                <div class="meta-content">
+                  <span class="meta-label">Duration</span>
+                  <span class="meta-val" id="preview-duration">6 Days / 5 Nights</span>
+                </div>
+              </div>
+              <div class="meta-item">
+                <i data-lucide="users" class="meta-icon"></i>
+                <div class="meta-content">
+                  <span class="meta-label">Group Size</span>
+                  <span class="meta-val" id="preview-people">Min 6 Pax</span>
+                </div>
+              </div>
+              <div class="meta-item">
+                <i data-lucide="wallet" class="meta-icon"></i>
+                <div class="meta-content">
+                  <span class="meta-label">Pricing</span>
+                  <span class="meta-val" id="preview-price">₹24,999 / Person</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="cover-footer">
+              <div class="footer-badge">SAR OUTDOORS &copy; 2026</div>
+              <div class="footer-contact" id="preview-cover-contact">info@saroutdoors.com | www.saroutdoors.com</div>
+            </div>
+          </div>
+
+
+
+          <!-- ================= PAGE 3: INCLUSIONS & POLICIES ================= -->
+          <div class="pdf-page pdf-page-content" id="pdf-details-page">
+            <div class="page-header">
+              <div class="header-logo-mini"></div>
+              <div class="header-page-title">Inclusions & Policies</div>
+            </div>
+
+            <div class="page-body">
+              <div class="inclusions-exclusions-grid">
+                <div class="inc-exc-column inclusion-col">
+                  <div class="inc-exc-title-row">
+                    <i data-lucide="check-circle-2" class="icon-success"></i>
+                    <h3>What is Included</h3>
+                  </div>
+                  <ul class="inc-exc-list" id="preview-inclusions-list">
+                    <!-- Dynamic inclusions -->
+                  </ul>
+                </div>
+                <div class="inc-exc-column exclusion-col">
+                  <div class="inc-exc-title-row">
+                    <i data-lucide="x-circle" class="icon-danger"></i>
+                    <h3>What is Excluded</h3>
+                  </div>
+                  <ul class="inc-exc-list" id="preview-exclusions-list">
+                    <!-- Dynamic exclusions -->
+                  </ul>
+                </div>
+              </div>
+
+              <div class="pricing-summary-card">
+                <div class="card-glow"></div>
+                <div class="summary-details" id="preview-price-details-info">
+                  <h4>Total Pricing & Group Scale</h4>
+                  <p class="pricing-notes">Rates are subject to group size requirements and weather bookings.</p>
+                </div>
+                <div class="summary-price-box" id="preview-private-price-box">
+                  <span class="price-lbl">Starting From</span>
+                  <span class="price-val" id="preview-details-price">₹24,999</span>
+                  <span class="price-unit">per person</span>
+                </div>
+                <!-- Group Sharing Price Grid -->
+                <div class="summary-price-grid-container" id="preview-group-price-box" style="display: none;">
+                  <div class="sharing-price-item">
+                    <span class="sharing-lbl">Quad Sharing</span>
+                    <span class="sharing-val" id="preview-details-price-quad">₹18,500</span>
+                    <span class="sharing-unit">per person</span>
+                  </div>
+                  <div class="sharing-price-item featured">
+                    <span class="sharing-lbl">Triple Sharing</span>
+                    <span class="sharing-val" id="preview-details-price-triple">₹21,000</span>
+                    <span class="sharing-unit">per person</span>
+                  </div>
+                  <div class="sharing-price-item">
+                    <span class="sharing-lbl">Double Sharing</span>
+                    <span class="sharing-val" id="preview-details-price-double">₹24,999</span>
+                    <span class="sharing-unit">per person</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="policies-terms-section">
+                <h3 class="subsection-heading"><i data-lucide="shield-alert"></i> Terms, Conditions & Safety Guidelines</h3>
+                <div class="policies-text-container" id="preview-policies-text">
+                  <!-- Dynamic policies terms -->
+                </div>
+              </div>
+            </div>
+
+            <div class="page-footer">
+              <div class="footer-line"></div>
+              <div class="footer-flex">
+                <span class="footer-brand" id="preview-footer-contact-details">Contact: info@saroutdoors.com | +91 98765 43210</span>
+                <span class="footer-page-num" id="preview-last-page-num">Page 3</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- AI ASSISTANT MODAL -->
+  <div id="ai-assistant-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i data-lucide="sparkles" style="color: #a855f7; width:22px; height:22px;"></i>
+          <span>AI Itinerary Assistant</span>
+        </div>
+        <button type="button" class="modal-close" id="btn-close-ai">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      
+      <div class="modal-tabs">
+        <button type="button" class="modal-tab active" id="tab-ai-direct">Direct AI Generate</button>
+        <button type="button" class="modal-tab" id="tab-ai-import">Copy-Paste Importer</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Direct AI Tab -->
+        <div id="pane-ai-direct" class="tab-pane active">
+          <div class="form-group">
+            <label for="ai-provider">AI Service Provider</label>
+            <select id="ai-provider">
+              <option value="gemini">Google Gemini (Free Tier / Recommended)</option>
+              <option value="openai">OpenAI ChatGPT (Requires Paid API Key)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="ai-key" class="label-flex" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+              <span>API Key</span>
+              <a href="https://aistudio.google.com/" target="_blank" id="lnk-get-key" class="get-key-link" style="color:#a855f7; font-size:0.75rem; text-decoration:none; text-transform:none; font-weight:500;">Get Free Gemini Key <i data-lucide="external-link" style="width:10px; height:10px; display:inline-block; vertical-align:middle; margin-left:2px;"></i></a>
+            </label>
+            <div class="input-password-wrapper" style="position:relative; display:flex; align-items:center;">
+              <input type="password" id="ai-key" placeholder="Paste your API key here (saved locally)" style="padding-right:45px;">
+              <button type="button" class="btn-toggle-password" id="btn-toggle-key" title="Toggle visibility" style="position:absolute; right:10px; background:none; border:none; color:#9ca3af; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+                <i data-lucide="eye" id="icon-toggle-key" style="width:18px; height:18px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group" style="flex:2;">
+              <label for="ai-destination">Destination</label>
+              <input type="text" id="ai-destination" placeholder="e.g., Manali trek, Spiti Road trip">
+            </div>
+            <div class="form-group" style="flex:1;">
+              <label for="ai-duration">Duration (Days)</label>
+              <input type="number" id="ai-duration" min="1" max="15" value="5">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="ai-vibe">Trip Vibe / Style</label>
+            <select id="ai-vibe">
+              <option value="adventure">High Adventure & Trekking</option>
+              <option value="cultural">Sightseeing & Culture</option>
+              <option value="leisure">Relaxed & Leisurely</option>
+              <option value="budget">Backpacking & Budget</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="ai-instructions">Custom Instructions (Optional)</label>
+            <textarea id="ai-instructions" rows="2" placeholder="e.g., Include homestays, emphasize photography, intermediate difficulty..."></textarea>
+          </div>
+
+          <button type="button" class="btn btn-primary btn-full margin-top-lg" id="btn-generate-ai" style="background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%); box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);">
+            <i data-lucide="wand-2"></i> Generate & Import Itinerary
+          </button>
+        </div>
+
+        <!-- Manual Import Tab -->
+        <div id="pane-ai-import" class="tab-pane">
+          <p class="section-helper" style="margin-top:0;">Ask ChatGPT/Gemini to write an itinerary, then paste it here. We will parse it into days automatically.</p>
+          <div class="form-group">
+            <label for="ai-pasted-text">Pasted Itinerary Text</label>
+            <textarea id="ai-pasted-text" rows="8" placeholder="Paste text here... (Example:
+Day 1: Arrival in Leh
+Highlights: Airport pick, rest
+Rest and adapt to altitude.
+Accommodation: Hotel Leh)"></textarea>
+          </div>
+          <button type="button" class="btn btn-primary btn-full margin-top-lg" id="btn-import-ai" style="background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%); box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);">
+            <i data-lucide="import"></i> Parse & Load Itinerary
+          </button>
+        </div>
+        
+        <!-- Loading overlay -->
+        <div class="modal-loading-overlay" id="ai-modal-loader" style="display:none;">
+          <div class="loader-spinner-box">
+            <div class="spinner-glow"></div>
+            <p class="loader-text">AI is planning your adventure...</p>
+            <p class="loader-subtext">Connecting to API and validating structured output</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- External App JS -->
+  <script src="app.js?v=8"></script>
+</body>
+</html>

@@ -1,0 +1,1866 @@
+/* ==========================================
+   SAR OUTDOORS - DESIGN SYSTEM & STYLESHEET
+   ========================================== */
+
+/* --- Core Variable Tokens --- */
+:root {
+  /* App Editor Variables (Dark Theme) */
+  --bg-app: #0b0f19;
+  --bg-sidebar: #111827;
+  --bg-card: #1f2937;
+  --bg-input: #1f2937;
+  --border-input: #374151;
+  --border-card: #374151;
+  --text-app-main: #f3f4f6;
+  --text-app-muted: #9ca3af;
+  --text-app-accent: #38bdf8;
+  
+  /* Brand Identity (SAR Outdoors) */
+  --brand-blue: #2a75e6;
+  --brand-teal: #1fc3a3;
+  --brand-lime: #7ee439;
+  --brand-gradient: linear-gradient(135deg, var(--brand-blue) 0%, var(--brand-teal) 50%, var(--brand-lime) 100%);
+  
+  /* PDF Theme Variables (Default Classic: Light Pages, Branded Cover) */
+  --pdf-bg: #ffffff;
+  --pdf-text: #1f2937;
+  --pdf-text-light: #4b5563;
+  --pdf-accent: #1fc3a3;
+  --pdf-accent-dark: #0f766e;
+  --pdf-accent-light: #e6f7f4;
+  --pdf-border: #e5e7eb;
+
+  /* Typography Variables */
+  --title-font: 'Outfit';
+  --body-font: 'Inter';
+  --title-weight: 900;
+  --title-style: normal;
+  --tagline-weight: 800;
+  --tagline-style: normal;
+  --title-case: uppercase;
+}
+
+/* --- Base Setup --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--body-font), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-app);
+  color: var(--text-app-main);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--title-font), sans-serif;
+  font-weight: 700;
+}
+
+/* --- Layout --- */
+.app-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* --- Editor Panel (Left) --- */
+.editor-panel {
+  width: 440px;
+  min-width: 440px;
+  background-color: var(--bg-sidebar);
+  border-right: 1px solid var(--border-card);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  z-index: 10;
+  box-shadow: 5px 0 25px rgba(0, 0, 0, 0.3);
+}
+
+.editor-header {
+  padding: 20px;
+  background-color: rgba(17, 24, 39, 0.8);
+  border-bottom: 1px solid var(--border-card);
+  backdrop-filter: blur(10px);
+}
+
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo-wrapper #app-logo-container {
+  width: 55px;
+  height: 55px;
+}
+
+.logo-wrapper h1 {
+  font-size: 1.15rem;
+  letter-spacing: 2px;
+  font-weight: 800;
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 2px;
+}
+
+.logo-wrapper p {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-app-muted);
+}
+
+.editor-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+/* Accordion sections */
+.editor-section {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 12px;
+  margin-bottom: 15px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.editor-section[open] {
+  border-color: var(--brand-teal);
+  box-shadow: 0 4px 15px rgba(31, 195, 163, 0.1);
+}
+
+.editor-section summary {
+  padding: 18px 20px;
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.05rem;
+  color: var(--text-app-main);
+  transition: background-color 0.2s;
+}
+
+.editor-section summary:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.editor-section summary::-webkit-details-marker {
+  display: none;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-title i {
+  color: var(--brand-teal);
+  width: 20px;
+  height: 20px;
+}
+
+.editor-section[open] summary .chevron {
+  transform: rotate(180deg);
+  color: var(--brand-teal);
+}
+
+.editor-section summary .chevron {
+  transition: transform 0.2s, color 0.2s;
+  color: var(--text-app-muted);
+  width: 18px;
+  height: 18px;
+}
+
+.section-body {
+  padding: 0 20px 20px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.section-helper {
+  font-size: 0.8rem;
+  color: var(--text-app-muted);
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+/* Forms styling */
+.form-group {
+  margin-top: 15px;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-app-muted);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+textarea,
+select {
+  width: 100%;
+  padding: 10px 14px;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-input);
+  border-radius: 8px;
+  color: var(--text-app-main);
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--brand-teal);
+  box-shadow: 0 0 0 3px rgba(31, 195, 163, 0.15);
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* Day block editor card */
+.day-block-card {
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.day-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.day-block-title-text {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--brand-teal);
+}
+
+.day-block-delete {
+  color: #ef4444;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+}
+
+.day-block-delete:hover {
+  opacity: 1;
+}
+
+.day-block-delete i {
+  width: 16px;
+  height: 16px;
+}
+
+.meal-options {
+  display: flex;
+  gap: 15px;
+  margin-top: 5px;
+}
+
+.meal-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--text-app-main);
+}
+
+.meal-checkbox input {
+  cursor: pointer;
+  accent-color: var(--brand-teal);
+}
+
+/* Inclusions/Exclusions List Editor */
+.list-editor-group {
+  margin-top: 15px;
+}
+
+.list-editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 8px;
+}
+
+.list-editor-header h3 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-app-main);
+}
+
+.bullet-list-editor {
+  margin-top: 10px;
+}
+
+.bullet-editor-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.bullet-editor-row input {
+  flex: 1;
+}
+
+.bullet-editor-row .btn-delete-item {
+  color: var(--text-app-muted);
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: color 0.2s;
+  padding: 5px;
+}
+
+.bullet-editor-row .btn-delete-item:hover {
+  color: #ef4444;
+}
+
+.bullet-editor-row .btn-delete-item i {
+  width: 16px;
+  height: 16px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
+}
+
+.btn-full {
+  width: 100%;
+}
+
+.btn-primary {
+  background: var(--brand-gradient);
+  color: white;
+  box-shadow: 0 4px 15px rgba(42, 117, 230, 0.25);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(42, 117, 230, 0.35);
+  filter: brightness(1.1);
+}
+
+.btn-secondary {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-app-main);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text-app-muted);
+  border: 1px solid var(--border-input);
+}
+
+.btn-outline:hover {
+  color: var(--text-app-main);
+  border-color: var(--text-app-muted);
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.btn-icon {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-app-main);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.btn-icon:hover {
+  background-color: var(--brand-teal);
+  color: white;
+  border-color: var(--brand-teal);
+}
+
+.btn-icon i {
+  width: 14px;
+  height: 14px;
+}
+
+.btn-sm {
+  font-size: 0.8rem;
+  padding: 6px 12px;
+}
+
+.editor-footer {
+  padding: 15px 20px;
+  background-color: rgba(17, 24, 39, 0.8);
+  border-top: 1px solid var(--border-card);
+  display: flex;
+  gap: 15px;
+}
+
+.editor-footer button {
+  flex: 1;
+}
+
+/* Helpers */
+.margin-top-lg {
+  margin-top: 25px;
+}
+
+/* --- Preview Area (Right) --- */
+.preview-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #0b0f19;
+}
+
+.preview-toolbar {
+  height: 75px;
+  min-height: 75px;
+  background-color: var(--bg-sidebar);
+  border-bottom: 1px solid var(--border-card);
+  padding: 0 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 5;
+}
+
+.toolbar-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-app-main);
+}
+
+.toolbar-title i {
+  color: var(--brand-teal);
+  width: 18px;
+  height: 18px;
+}
+
+.toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.style-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--text-app-muted);
+}
+
+.style-selector select {
+  width: auto;
+  padding: 6px 28px 6px 12px;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-input);
+  font-weight: 600;
+}
+
+.preview-scroll-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  scroll-behavior: smooth;
+}
+
+/* ==========================================
+   A4 PRINTABLE PAGES RULES
+   ========================================== */
+
+/* Document Container Root */
+.pdf-document-root {
+  display: block;
+}
+
+/* A4 Page Styling for Screen Review */
+.pdf-page {
+  width: 210mm;
+  height: 297mm;
+  min-height: 297mm;
+  max-height: 297mm;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  background-color: var(--pdf-bg) !important;
+  color: var(--pdf-text) !important;
+  font-family: var(--body-font), sans-serif;
+  position: relative;
+  box-sizing: border-box;
+  padding: 18mm 15mm; /* Clean standard margins */
+  margin: 0 auto 40px auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* PDF Page Content Layout */
+.page-header {
+  height: 15mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--pdf-accent);
+  margin-bottom: 8mm;
+  box-sizing: border-box;
+}
+
+.header-logo-mini {
+  height: 38px;
+  width: 38px;
+}
+
+.header-page-title {
+  font-family: var(--title-font), sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--pdf-accent-dark);
+}
+
+.page-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.page-section-heading {
+  font-family: var(--title-font), sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--pdf-accent-dark);
+  margin-bottom: 6mm;
+  letter-spacing: -0.5px;
+  position: relative;
+}
+
+.page-section-heading::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 45px;
+  height: 3px;
+  background-color: var(--pdf-accent);
+  border-radius: 2px;
+}
+
+.page-footer {
+  height: 10mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-top: auto;
+}
+
+.footer-line {
+  height: 1px;
+  background-color: var(--pdf-border);
+  width: 100%;
+  margin-bottom: 3mm;
+}
+
+.footer-flex {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--pdf-text-light);
+  font-weight: 500;
+}
+
+/* --- Cover Page Design --- */
+.pdf-page-cover {
+  padding: 0;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.theme-classic .pdf-page-cover {
+  background: #0b111e !important;
+  color: #ffffff !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.cover-glow-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 350px;
+  background: linear-gradient(to bottom, rgba(31, 195, 163, 0.2) 0%, rgba(42, 117, 230, 0.1) 60%, rgba(0, 0, 0, 0) 100%) !important;
+  z-index: 1;
+  pointer-events: none;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.cover-header {
+  width: 100%;
+  padding: 10mm 15mm;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 2;
+}
+
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 100px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  color: #ffffff;
+}
+
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--brand-gradient);
+  border-radius: 50%;
+}
+
+.cover-logo-area {
+  margin-top: 8mm;
+  width: 155px;
+  height: 155px;
+  z-index: 2;
+  filter: drop-shadow(0 15px 25px rgba(0,0,0,0.4));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-preview-svg-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cover-logo-area .logo-preview-svg-wrapper svg {
+  width: 100%;
+  height: 100%;
+}
+
+.custom-logo-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.header-logo-mini .custom-logo-img {
+  max-height: 38px;
+  max-width: 38px;
+  object-fit: contain;
+}
+
+.cover-hero-banner {
+  margin-top: 10mm;
+  width: 80%;
+  height: 165px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 2;
+}
+
+.cover-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(11, 17, 30, 0.6) 0%, rgba(11, 17, 30, 0.1) 100%);
+}
+
+.cover-titles {
+  margin-top: 12mm;
+  text-align: center;
+  padding: 0 15mm;
+  z-index: 2;
+}
+
+.trip-tagline {
+  font-family: var(--title-font), sans-serif;
+  font-size: 0.95rem;
+  font-weight: var(--tagline-weight);
+  font-style: var(--tagline-style);
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--brand-teal); /* High contrast solid brand color */
+  margin-bottom: 12px;
+}
+
+.trip-main-title {
+  font-family: var(--title-font), sans-serif;
+  font-size: 2.8rem;
+  font-weight: var(--title-weight);
+  font-style: var(--title-style);
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  color: #ffffff;
+  text-transform: var(--title-case);
+}
+
+.title-divider-line {
+  width: 80px;
+  height: 4px;
+  background: var(--brand-gradient);
+  margin: 18px auto 0 auto;
+  border-radius: 2px;
+}
+
+.cover-metadata-grid {
+  margin-top: 15mm;
+  width: 82%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  z-index: 2;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  transition: background-color 0.2s;
+}
+
+.meta-icon {
+  width: 22px;
+  height: 22px;
+  color: var(--brand-teal);
+}
+
+.meta-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.meta-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #9ca3af;
+  margin-bottom: 2px;
+}
+
+.meta-val {
+  font-family: var(--title-font), sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.cover-footer {
+  margin-top: auto;
+  width: 100%;
+  padding: 10mm 15mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 2;
+}
+
+.footer-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #9ca3af;
+}
+
+.footer-contact {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+/* --- Timeline / Itinerary Styling --- */
+.timeline-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-left: 20px;
+  flex: 1;
+}
+
+.timeline-container::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  bottom: 12px;
+  left: 6px;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--pdf-accent) 0%, rgba(31, 195, 163, 0.2) 100%);
+  border-radius: 100px;
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 7mm;
+  box-sizing: border-box;
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-badge {
+  position: absolute;
+  left: -28px;
+  top: 2px;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: var(--pdf-accent);
+  border: 4px solid var(--pdf-bg);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.55rem;
+  font-weight: 800;
+  font-family: var(--title-font), sans-serif;
+  z-index: 2;
+}
+
+.timeline-content {
+  background: var(--pdf-bg);
+  border: 1px solid var(--pdf-border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.timeline-day-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+}
+
+.timeline-day-title {
+  font-family: var(--title-font), sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--pdf-accent-dark);
+}
+
+.timeline-day-details-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  background-color: var(--pdf-accent-light);
+  color: var(--pdf-accent-dark);
+  border-radius: 6px;
+}
+
+.timeline-day-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.highlight-tag {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--pdf-accent-dark);
+  border: 1px solid var(--pdf-accent);
+  padding: 2px 7px;
+  border-radius: 100px;
+  background-color: var(--pdf-bg);
+}
+
+.timeline-day-description {
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--pdf-text-light);
+  margin-bottom: 8px;
+}
+
+.timeline-day-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px dashed var(--pdf-border);
+  padding-top: 8px;
+  margin-top: 8px;
+}
+
+.meta-block {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--pdf-text-light);
+}
+
+.meta-block i {
+  width: 14px;
+  height: 14px;
+  color: var(--pdf-accent);
+}
+
+.meal-badge-group {
+  display: flex;
+  gap: 4px;
+}
+
+.meal-mini-badge {
+  font-size: 0.6rem;
+  font-weight: 700;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--pdf-border);
+  color: var(--pdf-text-light);
+}
+
+.meal-mini-badge.active {
+  background-color: var(--pdf-accent);
+  color: #ffffff;
+}
+
+/* --- Inclusions/Exclusions & Details page --- */
+.inclusions-exclusions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 8mm;
+  flex-shrink: 0;
+}
+
+.inc-exc-column {
+  background: var(--pdf-bg);
+  border: 1px solid var(--pdf-border);
+  border-radius: 12px;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.inc-exc-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--pdf-border);
+  padding-bottom: 8px;
+}
+
+.inc-exc-title-row i {
+  width: 20px;
+  height: 20px;
+}
+
+.inc-exc-title-row i.icon-success {
+  color: #10b981;
+}
+
+.inc-exc-title-row i.icon-danger {
+  color: #9ca3af; /* Minimal gray cross or red */
+}
+
+.inc-exc-title-row h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.inc-exc-list {
+  list-style: none;
+}
+
+.inc-exc-list li {
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--pdf-text-light);
+  margin-bottom: 8px;
+  position: relative;
+  padding-left: 18px;
+}
+
+.inclusion-col .inc-exc-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #10b981;
+  font-weight: 800;
+  font-size: 0.8rem;
+}
+
+.exclusion-col .inc-exc-list li::before {
+  content: '×';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #ef4444;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.pricing-summary-card {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8mm;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  flex-shrink: 0;
+}
+
+.summary-details h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #ffffff;
+}
+
+.pricing-notes {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.summary-price-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.price-lbl {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--brand-teal);
+  font-weight: 700;
+}
+
+.price-val {
+  font-family: var(--title-font), sans-serif;
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1.1;
+  color: #ffffff;
+}
+
+.price-unit {
+  font-size: 0.7rem;
+  color: #9ca3af;
+}
+
+.policies-terms-section {
+  flex: 1;
+  background: var(--pdf-bg);
+  border: 1px solid var(--pdf-border);
+  border-radius: 12px;
+  padding: 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.subsection-heading {
+  font-family: var(--title-font), sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--pdf-accent-dark);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--pdf-border);
+  padding-bottom: 6px;
+}
+
+.subsection-heading i {
+  width: 16px;
+  height: 16px;
+  color: var(--pdf-accent);
+}
+
+.policies-text-container {
+  font-size: 0.76rem;
+  line-height: 1.5;
+  color: var(--pdf-text-light);
+  overflow-y: auto;
+  white-space: pre-line;
+}
+
+/* ==========================================
+   THEME STYLES SELECTORS
+   ========================================== */
+
+/* 1. Classic Brand Theme (Branded cover, clean bright inner pages) */
+.theme-classic {
+  --pdf-bg: #ffffff;
+  --pdf-text: #1f2937;
+  --pdf-text-light: #4b5563;
+  --pdf-accent: #1fc3a3;
+  --pdf-accent-dark: #0f766e;
+  --pdf-accent-light: #e6f7f4;
+  --pdf-border: #e5e7eb;
+}
+
+/* 2. Adventure Dark Theme (Full bleed dark, sleek) */
+.theme-dark {
+  --pdf-bg: #0b111e;
+  --pdf-text: #f3f4f6;
+  --pdf-text-light: #9ca3af;
+  --pdf-accent: #38bdf8;
+  --pdf-accent-dark: #0284c7;
+  --pdf-accent-light: rgba(56, 189, 248, 0.1);
+  --pdf-border: rgba(255, 255, 255, 0.08);
+}
+.theme-dark .pdf-page {
+  background: #0b111e !important;
+  color: #ffffff !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+.theme-dark .timeline-content {
+  background-color: #111827;
+  border-color: rgba(255, 255, 255, 0.05);
+}
+.theme-dark .inc-exc-column {
+  background-color: #111827;
+  border-color: rgba(255, 255, 255, 0.05);
+}
+.theme-dark .policies-terms-section {
+  background-color: #111827;
+  border-color: rgba(255, 255, 255, 0.05);
+}
+.theme-dark .inc-exc-title-row i.icon-danger {
+  color: #f87171;
+}
+
+/* 3. Eco Green (Light cover, high-print compatibility) */
+.theme-light {
+  --pdf-bg: #ffffff;
+  --pdf-text: #1e293b;
+  --pdf-text-light: #475569;
+  --pdf-accent: #7ee439;
+  --pdf-accent-dark: #3f6e1b;
+  --pdf-accent-light: #f0fdf4;
+  --pdf-border: #cbd5e1;
+}
+.theme-light .pdf-page-cover {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+.theme-light .trip-tagline {
+  color: var(--pdf-accent-dark);
+}
+.theme-light .cover-titles .trip-main-title {
+  color: #0f172a;
+}
+.theme-light .cover-metadata-grid .meta-item {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+.theme-light .cover-metadata-grid .meta-val {
+  color: #0f172a;
+}
+.theme-light .cover-footer {
+  border-top-color: #e2e8f0;
+}
+.theme-light .cover-glow-top {
+  background: radial-gradient(circle at 50% 0%, rgba(126, 228, 57, 0.15) 0%, rgba(0, 0, 0, 0) 100%);
+}
+.theme-light .pricing-summary-card {
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+}
+.theme-light .pricing-summary-card .summary-details h4 {
+  color: #0f172a;
+}
+.theme-light .pricing-summary-card .price-val {
+  color: #0f172a;
+}
+.theme-light .pricing-summary-card .price-lbl {
+  color: #3f6e1b;
+}
+
+/* ==========================================
+   PRINT MEDIA RULES (html2pdf engine)
+   ========================================== */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  body {
+    background: transparent !important;
+    color: black;
+  }
+  .app-container {
+    display: block;
+    height: auto;
+    width: auto;
+  }
+  .editor-panel,
+  .preview-toolbar {
+    display: none !important;
+  }
+  .preview-area {
+    padding: 0 !important;
+    background: transparent !important;
+  }
+  .preview-scroll-container {
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+  .pdf-page {
+    margin: 0 !important;
+    box-shadow: none !important;
+    background-color: var(--pdf-bg) !important;
+    color: var(--pdf-text) !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  /* Explicit theme cover backgrounds in print mode */
+  .theme-classic .pdf-page-cover {
+    background-color: #0b111e !important;
+    background-image: none !important;
+    color: #ffffff !important;
+  }
+  .theme-dark .pdf-page-cover {
+    background-color: #0b111e !important;
+    background-image: none !important;
+    color: #ffffff !important;
+  }
+  .theme-light .pdf-page-cover {
+    background-color: #f8fafc !important;
+    background-image: none !important;
+    color: #0f172a !important;
+  }
+  /* Hide gradients during print to avoid html2canvas black/white overlays */
+  .cover-glow-top {
+    display: none !important;
+  }
+  .cover-banner-overlay {
+    display: none !important;
+  }
+  .title-divider-line {
+    background-color: var(--pdf-accent) !important;
+    background-image: none !important;
+  }
+  .timeline-container::before {
+    background-color: var(--pdf-accent) !important;
+    background-image: none !important;
+  }
+  .pricing-summary-card {
+    background-color: #1e293b !important;
+    background-image: none !important;
+  }
+  .theme-light .pricing-summary-card {
+    background-color: #f1f5f9 !important;
+    background-image: none !important;
+  }
+}
+
+/* Exporting state overrides to avoid blank page margins bleeding in html2pdf */
+.pdf-exporting .pdf-page {
+  height: 295mm !important;
+  min-height: 295mm !important;
+  max-height: 295mm !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Explicit theme cover backgrounds during PDF export */
+.pdf-exporting.theme-classic .pdf-page-cover {
+  background-color: #0b111e !important;
+  background-image: none !important;
+  color: #ffffff !important;
+}
+.pdf-exporting.theme-dark .pdf-page-cover {
+  background-color: #0b111e !important;
+  background-image: none !important;
+  color: #ffffff !important;
+}
+.pdf-exporting.theme-light .pdf-page-cover {
+  background-color: #f8fafc !important;
+  background-image: none !important;
+  color: #0f172a !important;
+}
+
+/* Hide gradients during PDF export to prevent canvas glitches */
+.pdf-exporting .cover-glow-top {
+  display: none !important;
+}
+.pdf-exporting .cover-banner-overlay {
+  display: none !important;
+}
+.pdf-exporting .title-divider-line {
+  background-color: var(--pdf-accent) !important;
+  background-image: none !important;
+}
+.pdf-exporting .timeline-container::before {
+  background-color: var(--pdf-accent) !important;
+  background-image: none !important;
+}
+.pdf-exporting .pricing-summary-card {
+  background-color: #1e293b !important;
+  background-image: none !important;
+}
+.pdf-exporting.theme-light .pricing-summary-card {
+  background-color: #f1f5f9 !important;
+  background-image: none !important;
+}
+
+/* ==========================================
+   AI ASSISTANT MODAL STYLES
+   ========================================== */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 15, 25, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+
+.modal-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-card {
+  background: rgba(17, 24, 39, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  border-radius: 16px;
+  width: 90%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: translateY(20px);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-height: 90vh;
+}
+
+.modal-backdrop.active .modal-card {
+  transform: translateY(0);
+}
+
+.modal-header {
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #ffffff;
+}
+
+.modal-close {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-app-muted);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.modal-close:hover {
+  background-color: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+}
+
+.modal-tabs {
+  display: flex;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.modal-tab {
+  flex: 1;
+  padding: 14px;
+  background: transparent;
+  border: none;
+  color: var(--text-app-muted);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-bottom: 2px solid transparent;
+}
+
+.modal-tab:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.modal-tab.active {
+  color: #ffffff;
+  border-bottom-color: #a855f7;
+  background: rgba(168, 85, 247, 0.05);
+}
+
+.modal-body {
+  padding: 24px;
+  overflow-y: auto;
+  position: relative;
+  flex: 1;
+}
+
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+/* API setup styles */
+.label-flex {
+  width: 100%;
+}
+
+.get-key-link {
+  transition: opacity 0.2s;
+}
+
+.get-key-link:hover {
+  opacity: 0.8;
+}
+
+.input-password-wrapper input {
+  width: 100%;
+}
+
+.btn-toggle-password {
+  transition: color 0.2s;
+}
+
+.btn-toggle-password:hover {
+  color: #ffffff !important;
+}
+
+/* Modal Loading Overlay */
+.modal-loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 15, 25, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.loader-spinner-box {
+  text-align: center;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.spinner-glow {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(168, 85, 247, 0.1);
+  border-left-color: #a855f7;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+  margin-bottom: 20px;
+}
+
+.loader-text {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+
+.loader-subtext {
+  font-size: 0.8rem;
+  color: var(--text-app-muted);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ==========================================
+   DAY-WISE ITINERARY IMAGE ATTACHMENTS
+   ========================================== */
+
+/* Editor Panel controls */
+.day-image-inputs {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.day-image-preview-container {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.day-image-preview-img {
+  width: 75px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-clear-day-image {
+  padding: 4px 8px !important;
+  font-size: 0.75rem !important;
+  color: #f87171 !important;
+  border-color: rgba(248, 113, 113, 0.2) !important;
+}
+
+.btn-clear-day-image:hover {
+  background-color: rgba(248, 113, 113, 0.1) !important;
+  border-color: rgba(248, 113, 113, 0.4) !important;
+}
+
+/* A4 Printable Pages side-by-side layout */
+.timeline-content.has-image {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 16px !important;
+  padding: 10px 14px !important;
+}
+
+.timeline-text-side {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.timeline-image-side {
+  width: 130px !important;
+  min-width: 130px !important;
+  height: 95px !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  border: 1px solid var(--pdf-border) !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04) !important;
+  align-self: center !important;
+}
+
+.timeline-image-side img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+/* Ensure images show exact print-color adjustments */
+.timeline-day-image {
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Screen responsive behavior: collapse on screen editor, remain side-by-side in A4 preview and print */
+@media (max-width: 1024px) {
+  .app-container:not(.pdf-exporting) .timeline-content.has-image {
+    flex-direction: column !important;
+  }
+  .app-container:not(.pdf-exporting) .timeline-image-side {
+    width: 100% !important;
+    height: 150px !important;
+    align-self: stretch !important;
+  }
+}
+
+/* ==========================================
+   CUSTOMER NAME & GROUP SHARING PRICING
+   ========================================== */
+
+/* Cover Page Customer Name */
+.cover-customer-name-wrapper {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cover-customer-name-lbl {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2.2px;
+  color: #9ca3af;
+  opacity: 0.85;
+  font-weight: 600;
+}
+
+.theme-light .cover-customer-name-lbl {
+  color: #475569;
+}
+
+.cover-customer-name-val {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+  font-family: var(--title-font);
+}
+
+.theme-light .cover-customer-name-val {
+  color: #0f172a;
+}
+
+/* Details Page Group Pricing Grid */
+.summary-price-grid-container {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.sharing-price-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  text-align: center;
+  min-width: 90px;
+}
+
+.sharing-price-item.featured {
+  background: rgba(31, 195, 163, 0.1);
+  border-color: rgba(31, 195, 163, 0.3);
+}
+
+.theme-light .sharing-price-item {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.theme-light .sharing-price-item.featured {
+  background: rgba(63, 110, 27, 0.08);
+  border-color: rgba(63, 110, 27, 0.2);
+}
+
+.sharing-lbl {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+  color: #9ca3af;
+  margin-bottom: 2px;
+}
+
+.theme-light .sharing-lbl {
+  color: #64748b;
+}
+
+.sharing-price-item.featured .sharing-lbl {
+  color: var(--pdf-accent);
+}
+
+.theme-light .sharing-price-item.featured .sharing-lbl {
+  color: var(--pdf-accent-dark);
+}
+
+.sharing-val {
+  font-family: var(--title-font), sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.sharing-price-item.featured .sharing-val {
+  font-size: 1.25rem;
+}
+
+.theme-light .sharing-val {
+  color: #0f172a;
+}
+
+.sharing-unit {
+  font-size: 0.6rem;
+  color: #9ca3af;
+}
+
+.theme-light .sharing-unit {
+  color: #64748b;
+}
+
+/* Print/Export overrides for sharing price items */
+@media print {
+  .sharing-price-item {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+  .sharing-price-item.featured {
+    background-color: rgba(31, 195, 163, 0.15) !important;
+    border-color: rgba(31, 195, 163, 0.4) !important;
+  }
+  .theme-light .sharing-price-item {
+    background-color: rgba(0, 0, 0, 0.04) !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+  }
+  .theme-light .sharing-price-item.featured {
+    background-color: rgba(126, 228, 57, 0.15) !important;
+    border-color: rgba(126, 228, 57, 0.4) !important;
+  }
+}
+
+.pdf-exporting .sharing-price-item {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+.pdf-exporting .sharing-price-item.featured {
+  background-color: rgba(31, 195, 163, 0.15) !important;
+  border-color: rgba(31, 195, 163, 0.4) !important;
+}
+.pdf-exporting.theme-light .sharing-price-item {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+.pdf-exporting.theme-light .sharing-price-item.featured {
+  background-color: rgba(126, 228, 57, 0.15) !important;
+  border-color: rgba(126, 228, 57, 0.4) !important;
+}
+
