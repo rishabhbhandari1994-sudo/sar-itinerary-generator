@@ -1526,7 +1526,8 @@ function exportToPDF() {
   const element = document.getElementById('pdf-document');
   const filename = `${state.tripTitle.trim().replace(/\s+/g, '_') || 'SAR_Outdoors'}_Itinerary.pdf`;
 
-  // Apply class to temporarily remove margins/shadows for clean PDF capture
+  // Apply class to body and document to temporarily remove margins/shadows/transforms for clean PDF capture
+  document.body.classList.add('pdf-exporting');
   element.classList.add('pdf-exporting');
 
   // HTML2PDF Configurations
@@ -1551,12 +1552,14 @@ function exportToPDF() {
     document.fonts.ready.then(() => {
       html2pdf().from(element).set(opt).save()
         .then(() => {
+          document.body.classList.remove('pdf-exporting');
           element.classList.remove('pdf-exporting');
           downloadBtn.innerHTML = originalText;
           downloadBtn.disabled = false;
           lucide.createIcons();
         })
         .catch(err => {
+          document.body.classList.remove('pdf-exporting');
           element.classList.remove('pdf-exporting');
           console.error("PDF Export failed:", err);
           alert("Failed to export PDF. Check connection and image URLs.");
@@ -1565,11 +1568,13 @@ function exportToPDF() {
           lucide.createIcons();
         });
     }).catch(err => {
+      document.body.classList.remove('pdf-exporting');
       element.classList.remove('pdf-exporting');
       console.error("Font loading verification failed:", err);
       // Fallback compilation immediately if font loading API fails
       html2pdf().from(element).set(opt).save()
         .then(() => {
+          document.body.classList.remove('pdf-exporting');
           element.classList.remove('pdf-exporting');
           downloadBtn.innerHTML = originalText;
           downloadBtn.disabled = false;
@@ -1577,13 +1582,14 @@ function exportToPDF() {
         })
         .catch(pdfErr => {
           console.error("PDF Export failed on fallback:", pdfErr);
+          document.body.classList.remove('pdf-exporting');
           element.classList.remove('pdf-exporting');
           downloadBtn.innerHTML = originalText;
           downloadBtn.disabled = false;
           lucide.createIcons();
         });
     });
-  }, 250);
+  }, 500);
 }
 
 // --- Custom Logo Rendering Helper ---
