@@ -435,6 +435,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Mobile tab switching
+  const tabBtnEdit = document.getElementById("tab-btn-edit");
+  const tabBtnPreview = document.getElementById("tab-btn-preview");
+  const appContainerElement = document.querySelector(".app-container");
+
+  if (tabBtnEdit && tabBtnPreview && appContainerElement) {
+    tabBtnEdit.addEventListener("click", () => {
+      appContainerElement.classList.remove("show-preview");
+      tabBtnEdit.classList.add("active");
+      tabBtnPreview.classList.remove("active");
+    });
+
+    tabBtnPreview.addEventListener("click", () => {
+      appContainerElement.classList.add("show-preview");
+      tabBtnPreview.classList.add("active");
+      tabBtnEdit.classList.remove("active");
+    });
+  }
+
   // Load Demo Data on start to give an amazing starting experience!
   loadDemoData();
   
